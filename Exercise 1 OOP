@@ -1,0 +1,79 @@
+using static System.Formats.Asn1.AsnWriter;
+
+namespace ConsoleApp1
+{
+    internal class Program
+    {
+        static void Main(string[] args)
+        {
+            CarStore store = new CarStore("best car", "st12", "sewar jihad");
+            store.display_info();
+
+            Console.WriteLine("Plesae enter the car name: ");
+            String name = Console.ReadLine();
+            Console.WriteLine("Enter the price of the car: ");
+            int price = Convert.ToInt32(Console.ReadLine());    
+            Console.WriteLine("enter the discount amount: ");
+            int discount = Convert.ToInt32(Console.ReadLine());
+            CarOnSale salecare = new CarOnSale(discount, price, name);
+            salecare.display();
+        }
+
+    }
+
+    public class CarStore
+    {
+        public string Store_name { get; set; }
+        public string Location { get; set; }
+        public string Owner_name { get; set; }
+
+        public CarStore(string Store_name, string Location, string Owner_name)
+        {
+            this.Owner_name = Owner_name;
+            this.Store_name = Store_name;
+            this.Location = Location;
+        }
+        public void display_info()
+        {
+            Console.WriteLine("welcome to the store. ");
+            Console.WriteLine();
+            Console.WriteLine($"The store name is {Store_name}, for his owner {Owner_name}, at the location {Location}");
+        }
+
+    }
+
+    public class Car
+    {
+        public int price { get; set; }
+        public string CarName { get; set; }
+
+        public Car(int price, string CarName)
+        {
+            this.price = price;
+            this.CarName = CarName;
+        }
+
+
+    }
+
+    public class CarOnSale : Car
+    {
+        public int discount { get; set; }
+        public int final_price { get; private set; }
+
+        public CarOnSale(int discount, int price, string CarName) : base(price, CarName)
+        {
+            this.discount = discount;
+            this.final_price = CalculateFinalPrice();
+        }
+
+        public int CalculateFinalPrice()
+        {
+            return price - (price * discount / 100);
+        }
+        public void display()
+        {
+            Console.WriteLine($"Car name: {CarName}, price {price}, the available discount {discount}%, so the final price is {final_price}");
+        }
+    }
+}
